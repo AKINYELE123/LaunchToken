@@ -1,0 +1,91 @@
+import { ethers } from "ethers";
+import Web3Modal from "web3modal"
+
+import { TOKEN_ABI, TOKEN_SALE_ADDRESS, TOKEN_ADDRESS, TOKEN_SALE_ABI } from "../Context/constants";
+
+
+export const CheckIfWalletConnected = async () => {
+    try {
+        if(!window.ethereum) return console.log("Install MetaMask");
+
+        const accounts = await window.ethereum.request({
+            method: "eth_accounts",
+        })
+
+        const firstAccount = accounts[0];
+        return firstAccount;
+    } catch(error){
+        console.log(error);
+    }
+}
+
+
+
+export const connetWallet = async () => {
+    try {
+        if(!window.ethereum) return console.log("Install MetaMask");
+
+        const accounts = await window.ethereum.request({
+            method: "eth_requestAccount",
+        })
+
+        const firstAccount = accounts[0];
+        window.location.reload();
+        return firstAccount;
+    } catch(error){
+        console.log(error);
+    }
+}
+
+
+
+// TOKEN CONTRACT
+
+const fetchTokenContract = (signerOrProvider) => ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signerOrProvider);
+
+export const connectingTOKENCONTRACT = async() => {
+    try{
+        const web3modal = new Web3Modal();
+        const connection = await web3modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+        const contract = new fetchTokenContract(signer);
+
+        return contract;
+    }catch(error) {
+        console.log(error)
+    }
+} 
+
+// GET BALANCE
+export const getBalance = async() => {
+    try{
+        const web3modal = new Web3Modal();
+        const connection = await web3modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        return await signer.getBalance();
+    }catch(error) {
+        console.log(error)
+    }
+} 
+
+
+// TOKEN SALE CONTRACT
+
+const fetchToken_SALE_Contract = (signerOrProvider) => ethers.Contract(TOKEN_SALE_ADDRESS, TOKEN_SALE_ABI, TOKEN_ABI, signerOrProvider);
+
+export const connectingTOKEN_SALE_CONTRACT = async() => {
+    try{
+        const web3modal = new Web3Modal();
+        const connection = await web3modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+        const contract = fetchTokenContract(signer);
+
+        return contract;
+    }catch(error) {
+        console.log(error)
+    }
+} 
