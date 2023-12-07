@@ -1,91 +1,172 @@
+// import { ethers } from "ethers";
+// import Web3Modal from "web3modal";
+
+// import {
+//   TOKEN_ADDRESS,
+//   TOKEN_ABI,
+//   TOKEN_SALE_ADDRESS,
+//   TOKEN_SALE_ABI,
+// } from "../Context/constants";
+
+// export const ChechIfWalletConnected = async () => {
+//   try {
+//     if (!window.ethereum) return console.log("Install MateMask");
+
+//     const accounts = await window.ethereum.request({
+//       method: "eth_accounts",
+//     });
+
+//     const firstAccount = accounts[0];
+//     return firstAccount;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// export const connectWallet = async () => {
+//   try {
+//     if (!window.ethereum) return console.log("Install MetaMask");
+
+//     const accounts = await window.ethereum.request({
+//       method: "eth_requestAccounts",
+//     });
+//     const firstAccount = accounts[0];
+//     window.location.reload();
+//     return firstAccount;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// //TOKEN CONTRACT
+// const fetchTokenContract = (signerOrProvider) =>
+//   new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signerOrProvider);
+
+// export const connectingTOKENContract = async () => {
+//   try {
+//     const web3modal = new Web3Modal();
+//     const connection = await web3modal.connect();
+//     const provider = new ethers.providers.Web3Provider(connection);
+//     const signer = provider.getSigner();
+//     const contract = fetchTokenContract(signer);
+//     return contract;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// export const getBalance = async () => {
+//   try {
+//     const web3modal = new Web3Modal();
+//     const connection = await web3modal.connect();
+//     const provider = new ethers.providers.Web3Provider(connection);
+//     const signer = provider.getSigner();
+
+//     return await signer.getBalance();
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// const fetchTOKEN_SALEContract = (signerOrProvider) =>
+//   new ethers.Contract(TOKEN_SALE_ADDRESS, TOKEN_SALE_ABI, signerOrProvider);
+
+// export const connectingTOKEN_SALEContract = async () => {
+//   try {
+//     const web3modal = new Web3Modal();
+//     const connection = await web3modal.connect();
+//     const provider = new ethers.providers.Web3Provider(connection);
+//     const signer = provider.getSigner();
+//     const contract = fetchTOKEN_SALEContract(signer);
+//     return contract;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+
 import { ethers } from "ethers";
-import Web3Modal from "web3modal"
+import Web3Modal from "web3modal";
 
-import { TOKEN_ABI, TOKEN_SALE_ADDRESS, TOKEN_ADDRESS, TOKEN_SALE_ABI } from "../Context/constants";
+import {
+  TOKEN_ADDRESS,
+  TOKEN_ABI,
+  TOKEN_SALE_ADDRESS,
+  TOKEN_SALE_ABI,
+} from "../Context/constants";
 
+export const ChechIfWalletConnected = async () => {
+  try {
+    if (!window.ethereum) return console.log("Install MateMask");
 
-export const CheckIfWalletConnected = async () => {
-    try {
-        if(!window.ethereum) return console.log("Install MetaMask");
+    const accounts = await window.ethereum.request({
+      method: "eth_accounts",
+    });
 
-        const accounts = await window.ethereum.request({
-            method: "eth_accounts",
-        })
+    const firstAccount = accounts[0];
+    return firstAccount;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-        const firstAccount = accounts[0];
-        return firstAccount;
-    } catch(error){
-        console.log(error);
-    }
-}
+export const connectWallet = async () => {
+  try {
+    if (!window.ethereum) return console.log("Install MetaMask");
 
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const firstAccount = accounts[0];
+    window.location.reload();
+    return firstAccount;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+//TOKEN CONTRACT
+const fetchTokenContract = (signerOrProvider) =>
+  new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signerOrProvider);
 
-export const connetWallet = async () => {
-    try {
-        if(!window.ethereum) return console.log("Install MetaMask");
+export const connectingTOKENContract = async () => {
+  try {
+    const web3modal = new Web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = fetchTokenContract(signer);
+    return contract;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-        const accounts = await window.ethereum.request({
-            method: "eth_requestAccount",
-        })
+export const getBalance = async () => {
+  try {
+    const web3modal = new Web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
 
-        const firstAccount = accounts[0];
-        window.location.reload();
-        return firstAccount;
-    } catch(error){
-        console.log(error);
-    }
-}
+    return await signer.getBalance();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+const fetchTOKEN_SALEContract = (signerOrProvider) =>
+  new ethers.Contract(TOKEN_SALE_ADDRESS, TOKEN_SALE_ABI, signerOrProvider);
 
-
-// TOKEN CONTRACT
-
-const fetchTokenContract = (signerOrProvider) => ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signerOrProvider);
-
-export const connectingTOKENCONTRACT = async() => {
-    try{
-        const web3modal = new Web3Modal();
-        const connection = await web3modal.connect();
-        const provider = new ethers.providers.Web3Provider(connection);
-        const signer = provider.getSigner();
-        const contract = new fetchTokenContract(signer);
-
-        return contract;
-    }catch(error) {
-        console.log(error)
-    }
-} 
-
-// GET BALANCE
-export const getBalance = async() => {
-    try{
-        const web3modal = new Web3Modal();
-        const connection = await web3modal.connect();
-        const provider = new ethers.providers.Web3Provider(connection);
-        const signer = provider.getSigner();
-
-        return await signer.getBalance();
-    }catch(error) {
-        console.log(error)
-    }
-} 
-
-
-// TOKEN SALE CONTRACT
-
-const fetchToken_SALE_Contract = (signerOrProvider) => ethers.Contract(TOKEN_SALE_ADDRESS, TOKEN_SALE_ABI, TOKEN_ABI, signerOrProvider);
-
-export const connectingTOKEN_SALE_CONTRACT = async() => {
-    try{
-        const web3modal = new Web3Modal();
-        const connection = await web3modal.connect();
-        const provider = new ethers.providers.Web3Provider(connection);
-        const signer = provider.getSigner();
-        const contract = fetchTokenContract(signer);
-
-        return contract;
-    }catch(error) {
-        console.log(error)
-    }
-} 
+export const connectingTOKEN_SALEContract = async () => {
+  try {
+    const web3modal = new Web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = fetchTOKEN_SALEContract(signer);
+    return contract;
+  } catch (error) {
+    console.log(error);
+  }
+};
